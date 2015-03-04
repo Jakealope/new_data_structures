@@ -1,3 +1,8 @@
+# http://blog.shayanjaved.com/2012/01/14/binary-search-tree-in-python/
+
+# http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
+
+
 class BSTNode(object):
     '''Instantiate Node and add helper functions'''
     def __init__(self, value, parent=None, left_child=None, right_child=None):
@@ -50,8 +55,24 @@ class BST(object):
             else:
                 break
 
-    def contains(self, values):
+    def contains(self, value):
         '''Returns true if data in value is in BST'''
+        if self.root is None:
+            return False
+        current_node = self.root
+        while True:
+            if current_node.value > value:
+                if current_node.left:
+                    current_node = current_node.left
+                else:
+                    return False
+            elif current_node.value < value:
+                if current_node.right:
+                    current_node = current_node.right
+                else:
+                    return False
+            else:
+                return True
 
     def depth(self):
         '''Returns total number of levels in BST as interger'''
