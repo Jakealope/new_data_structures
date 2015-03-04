@@ -20,3 +20,41 @@ class BST(object):
     def __init__(self, values=None):
         self.root = None
         self.size = 0
+
+    def size(self):
+        '''Will return integer size of BST'''
+        return self._size
+
+    def insert(self, value):
+        '''Inserts the data in value into BST'''
+        if self.root is None:
+            self.root = BSTNode(value)
+            self._size += 1
+            return
+        current_node = self.root
+        while True:
+            if current_node.value > value:
+                if current_node.left:
+                    current_node = current_node.left
+                else:
+                    current_node.left = BSTNode(value)
+                    self._size += 1
+                    break
+            elif current_node.value < value:
+                if current_node.right:
+                    current_node = current_node.right
+                else:
+                    current_node.right = BSTNode(value)
+                    self._size += 1
+                    break
+            else:
+                break
+
+    def contains(self, values):
+        '''Returns true if data in value is in BST'''
+
+    def depth(self):
+        '''Returns total number of levels in BST as interger'''
+
+    def balance(self):
+        '''Return positive or negativ integer to represent ree balance'''
