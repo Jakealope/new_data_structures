@@ -43,7 +43,7 @@ class BST(object):
                     current_node = current_node.left
                 else:
                     current_node.left = BSTNode(value)
-                    self._size += 1
+                    self.size += 1
                     break
             elif current_node.value < value:
                 if current_node.right:
@@ -76,9 +76,21 @@ class BST(object):
 
     def depth(self):
         '''Returns total number of levels in BST as interger'''
+        if self.root is None:
+            return 0
+        return self._depth(1, self.root)
+
+    def _depth(self, curr_depth, local_root):
+        '''Helper function for depth'''
+        l_depth = r_depth = 0
+        if local_root.left:
+            l_depth = self._depth(curr_depth + 1, local_root.left)
+        if local_root.right:
+            r_depth = self._depth(curr_depth + 1, local_root.right)
+        return max(curr_depth, l_depth, r_depth)
 
     def balance(self):
-        '''Return positive or negativ integer to represent ree balance'''
+        '''Return positive or negative integer to represent tree balance'''
         ret_value = 0
         if self.root is None:
             return ret_value
