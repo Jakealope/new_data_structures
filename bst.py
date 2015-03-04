@@ -24,7 +24,7 @@ class BST(object):
     '''Instantiate binary search tree'''
     def __init__(self, values=None):
         self.root = None
-        self.size = 0
+        self._size = 0
 
     def size(self):
         '''Will return integer size of BST'''
@@ -87,3 +87,7 @@ class BST(object):
         if self.root.right:
             ret_value -= self._depth(1, self.root.right)
         return ret_value
+
+
+if __name__ == '__main__':
+    tree = BST()
