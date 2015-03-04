@@ -58,3 +58,11 @@ class BST(object):
 
     def balance(self):
         '''Return positive or negativ integer to represent ree balance'''
+        ret_value = 0
+        if self.root is None:
+            return ret_value
+        if self.root.left:
+            ret_value += self._depth(1, self.root.left)
+        if self.root.right:
+            ret_value -= self._depth(1, self.root.right)
+        return ret_value
