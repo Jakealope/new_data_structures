@@ -1,5 +1,6 @@
 from bst import BST
 import pytest
+import random
 
 
 def test_insert():
@@ -34,11 +35,32 @@ def test_balance():
     t = BST()
     for i in range(10):
         t.insert(i)
-    assert t.balance() == 1
+    assert t.balance() == -9
 
 
 def test_negative_input():
     t = BST()
     for i in range(10, -10, -1):
         t.insert(i)
-    assert t.contains() is True
+    assert t.contains(i) is True
+
+
+def test_negative_input_balance():
+    t = BST()
+    for i in range(10, -10, -1):
+        t.insert(i)
+    assert t.balance() == 19
+
+
+def test_depth():
+    t = BST()
+    for i in range(10):
+        t.insert(i)
+    assert t.depth() == 10
+
+
+def test_random():
+    t = BST()
+    for i in random.sample(range(100), 100):
+        t.insert(i)
+    assert t.size() == 100
