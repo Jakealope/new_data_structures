@@ -7,7 +7,16 @@ class BSTNode(object):
         self.right = right_child
 
     def is_root(self):
+        '''Helper function for root node'''
         return not self.parent
 
     def is_leaf(self):
+        ''''Helper function for acknowledging leaf'''
         return not (self.right_child or self.left_child)
+
+
+class BST(object):
+    '''Instantiate binary search tree'''
+    def __init__(self, values=None):
+        self.root = None
+        self.size = 0
