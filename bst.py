@@ -119,7 +119,7 @@ if __name__ == '__main__':
         bst = BST()
         for i in x:
             bst.insert(i)
-        bst.contains(x[50])
+        bst.contains(50)
 
     print(timeit.Timer("easy_tree()", setup="from __main__ import easy_tree").timeit(number=1000))
     print(timeit.Timer("hard_tree()", setup="from __main__ import hard_tree").timeit(number=1000))
