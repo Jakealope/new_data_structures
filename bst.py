@@ -134,13 +134,12 @@ class BST(object):
 
 if __name__ == '__main__':
 
-    bst = BST()
     x = random.sample(range(100), 100)
     bst = BST()
     bst.insert(50)
     for i in x:
-            bst.insert(i)
-
+        bst.insert(i)
+    bst.insert(42.1)
     dot_graph = bst.get_dot()
     t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
     t.communicate(dot_graph)
@@ -149,9 +148,9 @@ if __name__ == '__main__':
         x = random.sample(range(100), 100)
         bst = BST()
         bst.insert(50)
-        bst.insert(42.1)
         for i in x:
             bst.insert(i)
+        bst.insert(42.1)
         bst.contains(42.1)
 
     def hard_tree():
