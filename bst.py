@@ -1,6 +1,7 @@
 # http://blog.shayanjaved.com/2012/01/14/binary-search-tree-in-python/
 
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
+import timeit
 
 
 class BSTNode(object):
@@ -43,7 +44,7 @@ class BST(object):
                     current_node = current_node.left
                 else:
                     current_node.left = BSTNode(value)
-                    self.size += 1
+                    self._size += 1
                     break
             elif current_node.value < value:
                 if current_node.right:
@@ -103,3 +104,8 @@ class BST(object):
 
 if __name__ == '__main__':
     tree = BST()
+
+    for i in range(10):
+        tree.insert(i)
+    timeit.timeit(contains)
+    print
