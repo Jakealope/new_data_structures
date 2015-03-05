@@ -2,6 +2,7 @@
 
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
 import timeit
+from random import shuffle
 
 
 class BSTNode(object):
@@ -103,9 +104,17 @@ class BST(object):
 
 
 if __name__ == '__main__':
-    tree = BST()
 
-    for i in range(10):
-        tree.insert(i)
-    timeit.timeit(contains)
-    print
+    setup_stmt = """
+from bst import BST
+tree = BST()
+for i in range(100):
+    shuffle(i)
+    tree.insert(i)
+"""
+
+    timeval = timeit.timeit(
+        "tree.contains(90)",
+        setup_stmt,
+        number=100)
+    print timeval
