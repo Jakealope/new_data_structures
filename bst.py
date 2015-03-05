@@ -115,9 +115,8 @@ if __name__ == '__main__':
         bst.contains(42.1)
 
     def hard_tree():
-        x = random.sample(range(100), 100)
+        x = range(100)
         bst = BST()
-        bst.insert(50)
         for i in x:
             bst.insert(i)
         bst.contains(x[50])
