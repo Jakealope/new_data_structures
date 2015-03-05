@@ -3,6 +3,7 @@
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
 import timeit
 import random
+import subprocess
 
 
 class BSTNode(object):
@@ -20,6 +21,25 @@ class BSTNode(object):
     def is_leaf(self):
         ''''Helper function for acknowledging leaf'''
         return not (self.right_child or self.left_child)
+
+    def _get_dot(self):
+        """recursively prepare a dot graph entry for this node."""
+        if self.left is not None:
+            yield "\t%s -> %s;" % (self.value, self.left.value)
+            for i in self.left._get_dot():
+                yield i
+        elif self.right is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.value, r)
+        if self.right is not None:
+            yield "\t%s -> %s;" % (self.value, self.right.value)
+            for i in self.right._get_dot():
+                yield i
+        elif self.left is not None:
+            r = random.randint(0, 1e9)
+            yield "\tnull%s [shape=point];" % r
+            yield "\t%s -> null%s;" % (self.value, r)
 
 
 class BST(object):
@@ -102,8 +122,28 @@ class BST(object):
             ret_value -= self._depth(1, self.root.right)
         return ret_value
 
+    def get_dot(self):
+        """return the tree with root 'self' as a dot graph for visualization"""
+        return "digraph G{\n%s}" % ("" if self.root.value is None else (
+            "\t%s;\n%s\n" % (
+                self.root.value,
+                "\n".join(self.root._get_dot())
+            )
+        ))
+
 
 if __name__ == '__main__':
+
+    bst = BST()
+    x = random.sample(range(100), 100)
+    bst = BST()
+    bst.insert(50)
+    for i in x:
+            bst.insert(i)
+
+    dot_graph = bst.get_dot()
+    t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
+    t.communicate(dot_graph)
 
     def easy_tree():
         x = random.sample(range(100), 100)
