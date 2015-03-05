@@ -134,9 +134,8 @@ class BST(object):
 
 if __name__ == '__main__':
 
-    x = random.sample(range(100), 100)
+    x = range(100)
     bst = BST()
-    bst.insert(50)
     for i in x:
         bst.insert(i)
     bst.insert(42.1)
@@ -158,7 +157,8 @@ if __name__ == '__main__':
         bst = BST()
         for i in x:
             bst.insert(i)
-        bst.contains(50)
+        bst.insert(42.1)
+        bst.contains(42.1)
 
     print(timeit.Timer("easy_tree()", setup="from __main__ import easy_tree").timeit(number=1000))
     print(timeit.Timer("hard_tree()", setup="from __main__ import hard_tree").timeit(number=1000))
