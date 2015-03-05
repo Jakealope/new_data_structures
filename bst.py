@@ -2,7 +2,7 @@
 
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
 import timeit
-from random import shuffle
+import random
 
 
 class BSTNode(object):
@@ -105,16 +105,22 @@ class BST(object):
 
 if __name__ == '__main__':
 
-    setup_stmt = """
-from bst import BST
-tree = BST()
-for i in range(100):
-    shuffle(i)
-    tree.insert(i)
-"""
+    def easy_tree():
+        x = random.sample(range(100), 100)
+        bst = BST()
+        bst.insert(50)
+        bst.insert(42.1)
+        for i in x:
+            bst.insert(i)
+        bst.contains(42.1)
 
-    timeval = timeit.timeit(
-        "tree.contains(90)",
-        setup_stmt,
-        number=100)
-    print timeval
+    def hard_tree():
+        x = random.sample(range(100), 100)
+        bst = BST()
+        bst.insert(50)
+        for i in x:
+            bst.insert(i)
+        bst.contains(x[50])
+
+    print(timeit.Timer("easy_tree()", setup="from __main__ import easy_tree").timeit(number=1000))
+    print(timeit.Timer("hard_tree()", setup="from __main__ import hard_tree").timeit(number=1000))
