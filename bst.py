@@ -133,11 +133,11 @@ class BST(object):
 
     def in_order(self):
         if self.left:
-            for value in in_order(self.left):
+            for value in self.left.in_order():
                 yield value
         yield self
         if self.right:
-            for value in in_order(self.right):
+            for value in self.right.in_order():
                 yield value
 
     def pre_order(self):
@@ -155,6 +155,8 @@ class BST(object):
             for value in self.right.post_order():
                 yield value
             yield self.root
+
+    
 
 
 if __name__ == '__main__':
