@@ -6,9 +6,22 @@ import random
 @pytest.fixture(scope="function")
 def tree_maker():
     t = BST()
-    for i in range(10):
-        t.insert(i)
+    t.insert(1)
+    t.insert(2)
+    t.insert(4)
+    t.insert(7)
+    t.insert(9)
     return t
+
+
+@pytest.fixture(scope="function")
+def tree_test(tree_maker):
+    tree_maker.insert(15)
+    tree_maker.insert(5)
+    tree_maker.insert(3)
+    tree_maker.insert(20)
+    tree_maker.insert(6)
+    return tree_maker
 
 
 def test_insert():
@@ -74,8 +87,10 @@ def test_random():
     assert t.size() == 100
 
 
-def test_in_order(tree_maker):
-    expected = [0, 5, 0, 0, 0]
-    actual = tree_maker.breadth_traversal()
-    for x in expected:
-        assert x == actual.next()
+def test_in_order(tree_test):
+    expected = [1, 2, 3, 4, 5, 6, 7, 9, 15, 20]
+    actual = tree_test.in_order()
+    for value in expected:
+        assert value == actual.next()
+    with pytest.raises(StopIteration):
+        actual.next()
