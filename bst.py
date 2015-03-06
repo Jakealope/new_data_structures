@@ -4,6 +4,7 @@
 import timeit
 import random
 import subprocess
+from collections import deque
 
 
 class BSTNode(object):
@@ -132,13 +133,16 @@ class BST(object):
         ))
 
     def in_order(self):
-        if self.left:
-            for value in self.left.in_order():
-                yield value
-        yield self
-        if self.right:
-            for value in self.right.in_order():
-                yield value
+        return self._in_order(self.root)
+
+    def _in_order(self, leaf):
+        if leaf is None:
+            return
+        for value in self._in_order(leaf.left):
+            yield value
+        yield leaf.value
+        for value in self._in_order(leaf.right):
+            yield value
 
     def pre_order(self):
         if self:
@@ -156,19 +160,28 @@ class BST(object):
                 yield value
             yield self.root
 
-    
+    def breadth_traversal(self):
+        x = deque()
+        x.append(self.root)
+        while x is not None:
+            leaf = x.pop()
+            yield leaf.value
+            if leaf.left:
+                x.append(self.root.left)
+            if leaf.right:
+                x.append(self.root.left)
 
 
 if __name__ == '__main__':
 
-    x = range(100)
-    bst = BST()
-    for i in x:
-        bst.insert(i)
-    bst.insert(42.1)
-    dot_graph = bst.get_dot()
-    t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
-    t.communicate(dot_graph)
+    # x = range(100)
+    # bst = BST()
+    # for i in x:
+    #     bst.insert(i)
+    # bst.insert(42.1)
+    # dot_graph = bst.get_dot()
+    # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
+    # t.communicate(dot_graph)
 
     def easy_tree():
         x = random.sample(range(100), 100)
