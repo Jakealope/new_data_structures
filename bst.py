@@ -131,6 +131,31 @@ class BST(object):
             )
         ))
 
+    def in_order(self):
+        if self.left:
+            for value in in_order(self.left):
+                yield value
+        yield self
+        if self.right:
+            for value in in_order(self.right):
+                yield value
+
+    def pre_order(self):
+        if self:
+            yield self.root
+            for value in self.left:
+                yield value
+            for value in self.right:
+                yield value
+
+    def post_order(self):
+        if self:
+            for value in self.left.post_order():
+                yield value
+            for value in self.right.post_order():
+                yield value
+            yield self.root
+
 
 if __name__ == '__main__':
 
