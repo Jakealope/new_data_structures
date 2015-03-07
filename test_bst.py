@@ -106,7 +106,7 @@ def test_pre_order(tree_test):
 
 
 def test_post_order(tree_test):
-    expected = [1, 2, 3, 4, 5, 6, 7, 9, 15, 20]
+    expected = [3, 6, 5, 20, 15, 9, 7, 4, 2, 1]
     actual = tree_test.post_order()
     for value in expected:
         assert value == actual.next()
