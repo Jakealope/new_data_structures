@@ -145,20 +145,28 @@ class BST(object):
             yield value
 
     def pre_order(self):
-        if self:
-            yield self.root
-            for value in self.left:
-                yield value
-            for value in self.right:
-                yield value
+        return self._pre_order(self.root)
+
+    def _pre_order(self, leaf):
+        if leaf is None:
+            return
+        yield leaf.value
+        for value in self._pre_order(leaf.left):
+            yield value
+        for value in self._pre_order(leaf.right):
+            yield value
 
     def post_order(self):
-        if self:
-            for value in self.left.post_order():
-                yield value
-            for value in self.right.post_order():
-                yield value
-            yield self.root
+        return self._post_order(self.root)
+
+    def _post_order(self, leaf):
+        if leaf is None:
+            return
+        for value in self._post_order(leaf.left):
+            yield value
+        for value in self._post_order(leaf.right):
+            yield value
+        yield leaf.value
 
     def breadth_traversal(self):
         x = deque()
@@ -167,9 +175,9 @@ class BST(object):
             leaf = x.pop()
             yield leaf.value
             if leaf.left:
-                x.append(self.root.left)
+                x.put(leaf.left)
             if leaf.right:
-                x.append(self.root.left)
+                x.put(leaf.left)
 
 
 if __name__ == '__main__':
