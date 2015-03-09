@@ -171,13 +171,13 @@ class BST(object):
     def breadth_traversal(self):
         x = deque()
         x.append(self.root)
-        while not x.empty:
-            leaf = x.()
+        while x:
+            leaf = x.popleft()
             yield leaf.value
             if leaf.left:
                 x.append(leaf.left)
             if leaf.right:
-                x.append(leaf.left)
+                x.append(leaf.right)
 
 
 if __name__ == '__main__':
