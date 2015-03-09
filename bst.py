@@ -183,39 +183,38 @@ class BST(object):
         self.root = self._delete(val, self.root)
         return None
 
-    def _delete(self, val, node):
-        def _descendants(node):
-            if node.left:
-                return _descendants(node.left)
+    def _delete(self, val, leaf):
+        def _descendants(leaf):
+            if leaf.left:
+                return _descendants(leaf.left)
             else:
-                return node.value
+                return leaf.value
 
-        if not node:
+        if not leaf:
             return None
 
-        if node.value == val:
+        if leaf.value == val:
             self._size -= 1
-            if node.left and node.right:
-                node.value = _descendants(node.right)
-                node.right = self._delete(node.value, node.right)
-                return node
-            elif node.left and not node.right:
-                return node.left
-            elif not node.left and node.right:
-                return node.right
+            if leaf.left and leaf.right:
+                leaf.value = _descendants(leaf.right)
+                leaf.right = self._delete(leaf.value, leaf.right)
+                return leaf
+            elif leaf.left and not leaf.right:
+                return leaf.left
+            elif not leaf.left and leaf.right:
+                return leaf.right
             else:
                 return None
 
-        elif node.value < val:
-            if node.right:
-                node.right = self._delete(val, node.right)
-            return node
+        elif leaf.value < val:
+            if leaf.right:
+                leaf.right = self._delete(val, leaf.right)
+            return leaf
 
         else:
-            if node.left:
-                node.left = self._delete(val, node.left)
-            return node
-
+            if leaf.left:
+                leaf.left = self._delete(val, leaf.left)
+            return leaf
 
 
 if __name__ == '__main__':
