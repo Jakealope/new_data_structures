@@ -121,3 +121,12 @@ def test_breadth_traversal(tree_test):
         assert value == actual.next()
     with pytest.raises(StopIteration):
         actual.next()
+
+
+def test_delete_func(tree_test):
+    expected = [3, 6, 5, 20, 15, 9, 7, 4, 2, 1]
+    actual = tree_test.delete('15')
+    for x in expected:
+        assert x == actual.next()
+    with pytest.raises(StopIteration):
+        x.next()
