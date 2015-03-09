@@ -119,5 +119,5 @@ def test_breadth_traversal(tree_test):
     actual = tree_test.breadth_traversal()
     for value in expected:
         assert value == actual.next()
-    # with pytest.raises(StopIteration):
-    #     actual.next()
+    with pytest.raises(StopIteration):
+        actual.next()
