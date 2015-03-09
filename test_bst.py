@@ -123,10 +123,47 @@ def test_breadth_traversal(tree_test):
         actual.next()
 
 
-def test_delete_func(tree_test):
-    expected = [3, 6, 5, 20, 15, 9, 7, 4, 2, 1]
-    actual = tree_test.delete('15')
-    for x in expected:
-        assert x == actual.next()
-    with pytest.raises(StopIteration):
-        x.next()
+def test_delete_one():
+    tree = BST()
+    tree.insert('1')
+    tree.insert('3')
+    tree.delete('3')
+    assert tree.contains('1') is True
+
+
+def test_delete_two():
+    t = BST()
+    t.insert('1')
+    t.insert('2')
+    t.insert('3')
+    t.delete('2')
+    assert t.contains('1') is True
+
+
+def test_multi_delete():
+    t = BST()
+    t.insert('1')
+    t.insert('2')
+    t.insert('3')
+    t.insert('4')
+    t.insert('5')
+    t.insert('6')
+    t.delete('3')
+    t.delete('5')
+    assert t.contains('4') is True
+
+
+def test_no_kids():
+    t = BST()
+    t.insert('1')
+    t.delete('1')
+    assert t.contains('1') is False
+
+
+def test_big_insert_delete():
+    x = range(100)
+    bst = BST()
+    for i in x:
+        bst.insert(i)
+    bst.delete('50')
+    assert bst.contains('50') is False
