@@ -179,6 +179,44 @@ class BST(object):
             if leaf.right:
                 x.append(leaf.right)
 
+    def delete(self, val):
+        self.root = self._delete(val, self.root)
+        return None
+
+    def _delete(self, val, node):
+        def _descendants(node):
+            if node.left:
+                return _descendants(node.left)
+            else:
+                return node.value
+
+        if not node:
+            return None
+
+        if node.value == val:
+            self._size -= 1
+            if node.left and node.right:
+                node.value = _descendants(node.right)
+                node.right = self._delete(node.value, node.right)
+                return node
+            elif node.left and not node.right:
+                return node.left
+            elif not node.left and node.right:
+                return node.right
+            else:
+                return None
+
+        elif node.value < val:
+            if node.right:
+                node.right = self._delete(val, node.right)
+            return node
+
+        else:
+            if node.left:
+                node.left = self._delete(val, node.left)
+            return node
+
+
 
 if __name__ == '__main__':
 
