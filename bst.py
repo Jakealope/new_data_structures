@@ -291,6 +291,17 @@ class BST(object):
         root.update_height(False)
         pivot.update_height(False)
 
+    def balance(self, node):
+        ''' There are four posabilities for rotation
+            left-left=LL right-right=RR
+            left-right=LR right-left=RL'''
+        node.update_height(False)
+        if node.balance == 2:
+            pass
+        elif node.balance == -2:
+            pass
+        else:
+            pass
 
 if __name__ == '__main__':
 
