@@ -3,6 +3,8 @@
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
 import timeit
 import random
+''' subprocess is imported for dotgraph but commented out because
+ it shits on everything if not called right'''
 import subprocess
 from collections import deque
 
@@ -291,11 +293,11 @@ class BST(object):
         root.update_height(False)
         pivot.update_height(False)
 
-    def find_leftmost(self, node):
-        if node.left_child is None:
-            return node
+    def find_leftmost(self, leaf):
+        if leaf.left is None:
+            return leaf
         else:
-            return self.find_leftmost(node.left_child)
+            return self.find_leftmost(leaf.self.left)
 
     def find_rightmost(self, node):
         if node.right_child is None:
@@ -305,16 +307,16 @@ class BST(object):
 
     def find_next(self, value):
         node = self.find(value)
-        if (node is None) or (node.value != value):
+        if node is None or node.value != value:
             return None
         else:
-            right_child = node.right_child
-            if right_child is not None:
-                node = self.find_leftmost(right_child)
+            right = node.right
+            if right is not None:
+                node = self.find_leftmost(right)
             else:
                 parent = node.parent
                 while(parent is not None):
-                    if node is parent.left_child:
+                    if node is parent.left:
                         break
                     node = parent
                     parent = node.parent
@@ -329,13 +331,13 @@ class BST(object):
         if (node is None) or (node.value != value):
             return None
         else:
-            left_child = node.left_child
-            if left_child is not None:
-                node = self.find_leftmost(left_child)
+            left = node.left
+            if left is not None:
+                node = self.find_leftmost(left)
             else:
                 parent = node.parent
                 while(parent is not None):
-                    if node is parent.right_child:
+                    if node is parent.right:
                         break
                     node = parent
                     parent = node.parent
@@ -355,15 +357,15 @@ class BST(object):
         elif node.value == value:
             return node
         elif value < node.value:
-            if node.left_child is None:
+            if node.left is None:
                 return node
             else:
-                return self.find(value, node.left_child)
+                return self.find(value, node.left)
         else:
-            if node.right_child is None:
+            if node.right is None:
                 return node
             else:
-                return self.find(value, node.right_child)
+                return self.find(value, node.right)
 
     def balance(self, node):
         ''' There are four posabilities for rotation
@@ -424,11 +426,10 @@ class BST(object):
 
 if __name__ == '__main__':
 
-    # x = range(100)
+    # x = [1, 4, 2, 5, 1, 3, 7, 11, 4.5]
     # bst = BST()
     # for i in x:
     #     bst.insert(i)
-    # bst.insert(42.1)
     # dot_graph = bst.get_dot()
     # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
     # t.communicate(dot_graph)
