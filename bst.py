@@ -14,6 +14,8 @@ class BSTNode(object):
         self.parent = parent
         self.left = left_child
         self.right = right_child
+        self.height = 0
+        self.balance = 0
 
     def is_root(self):
         '''Helper function for root node'''
