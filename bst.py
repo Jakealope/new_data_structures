@@ -324,7 +324,7 @@ class BST(object):
             else:
                 return node.value
 
-    def find_next(self, value):
+    def find_prev(self, value):
         node = self.find(value)
         if (node is None) or (node.value != value):
             return None
