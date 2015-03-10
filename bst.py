@@ -250,7 +250,6 @@ class BST(object):
                 leaf.left = self._delete(val, leaf.left)
             return leaf
 
-
     def rotate_left(self, root):
         left = root.is_left()
         pivot = root.right_child
@@ -261,6 +260,26 @@ class BST(object):
         if pivot.left_child is not None:
             root.right_child.parent = root
         pivot.left_child = root
+        pivot.parent = root.parent
+        root.parent = pivot
+        if left is None:
+            self.root = pivot
+        elif left:
+            pivot.parent.left_child = pivot
+        else:
+            pivot.parent.right_child = pivot
+        root.update_height(False)
+        pivot.update_height(False)
+
+    def rotate_right(self, root):
+        left = root.is_left()
+        pivot = root.left_child
+        if pivot is None:
+            return
+        root.left_child = pivot.right_child
+        if pivot.right_child is not None:
+            root.left_child.parent = root
+        pivot.right_child = root
         pivot.parent = root.parent
         root.parent = pivot
         if left is None:
