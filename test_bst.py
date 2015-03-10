@@ -52,11 +52,11 @@ def test_big_size():
     assert t.size() == 1000
 
 
-def test_balance():
+def test_is_balanced():
     t = BST()
     for i in range(10):
         t.insert(i)
-    assert t.balance() == -9
+    assert t.is_balanced() == -9
 
 
 def test_negative_input():
@@ -66,11 +66,11 @@ def test_negative_input():
     assert t.contains(i) is True
 
 
-def test_negative_input_balance():
+def test_negative_input_is_balanced():
     t = BST()
     for i in range(10, -10, -1):
         t.insert(i)
-    assert t.balance() == 19
+    assert t.is_balanced() == 19
 
 
 def test_depth():
