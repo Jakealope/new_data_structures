@@ -291,6 +291,19 @@ class BST(object):
         root.update_height(False)
         pivot.update_height(False)
 
+    def find_leftmost(self, node):
+        if node.left_child is None:
+            return node
+        else:
+            return self.find_leftmost(node.left_child)
+
+    def find_rightmost(self, node):
+        if node.right_child is None:
+            return node
+        else:
+            return self.find_rightmost(node.right_child)
+
+
     def balance(self, node):
         ''' There are four posabilities for rotation
             left-left=LL right-right=RR
@@ -320,6 +333,14 @@ class BST(object):
         else:
             if node.parent is not None:
                 self.balance(node.parent)
+
+    def sort(tree_maker, ascending=True):
+        t = BST()
+        for item in tree_maker:
+            t.insert(item)
+        ret = []
+        if ascending:
+            node = t.
 
 if __name__ == '__main__':
 
