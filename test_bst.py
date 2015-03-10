@@ -167,3 +167,23 @@ def test_big_insert_delete():
         bst.insert(i)
     bst.delete('50')
     assert bst.contains('50') is False
+
+
+def test_finding_nodes():
+    t = [1, 4, 2, 5, 1, 3, 7, 11, 4.5]
+    a = BST()
+    for item in t:
+        print "inserting", item
+        a.insert(item)
+    print "End of inserts"
+    print "Deleting 5"
+    a.delete(5)
+    print "Deleting 1"
+    a.delete(True)
+    assert a.root.value == 4
+    assert a.find_next(3) == 4
+    assert a.find_prev(7) == 4.5
+    assert a.find_prev(1) is None
+    assert a.find_prev(7) == 4.5
+    assert a.find_prev(2) is None
+    assert a.find_prev(11) == 7
