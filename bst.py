@@ -146,7 +146,7 @@ class BST(object):
             r_depth = self._depth(curr_depth + 1, local_root.right)
         return max(curr_depth, l_depth, r_depth)
 
-    def balance(self):
+    def is_balanced(self):
         '''Return positive or negative integer to represent tree balance'''
         ret_value = 0
         if self.root is None:
