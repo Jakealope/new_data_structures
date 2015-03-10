@@ -25,6 +25,30 @@ class BSTNode(object):
         ''''Helper function for acknowledging leaf'''
         return not (self.right_child or self.left_child)
 
+    def update_height(self, bubble_up=True):
+        '''If bubble_up is True, we go up the tree correcting height/balance
+           if not we will just correct the node'''
+        if self.left_child is None:
+            # set the left tree to zero
+            left_height = 0
+        else:
+            left_height = self.left_child.height + 1
+        if self.right_child is None:
+            # set the right tree to zero
+            right_height = 0
+        else:
+            right_height = self.right_child.height + 1
+            # we want to be able to balance even if we don't change the height
+
+        self.balance = left_height - right_height
+        height = max(left_height, right_height)
+        if self.height != height:
+            self.height = height
+            if self.parent is not None:
+                # We only bubble up if the height changes
+                if bubble_up:
+                    self.parent.update_height()
+
     def _get_dot(self):
         """recursively prepare a dot graph entry for this node."""
         if self.left is not None:
