@@ -376,83 +376,59 @@ class BST(object):
                 self.balance(node.parent)
 
     def sort(self, tree_maker, ascending=True):
-        B = BST()
+        b = BST()
         for item in tree_maker:
-            B.insert(item)
+            b.insert(item)
         ret_value = []
         if ascending:
-            node = B.find_leftmost(B.root)
+            node = b.find_leftmost(b.root)
             if node is not None:
                 value = node.value
             else:
                 value = node
             while (value is not None):
                 ret_value.append(value)
-                value = B.find_next(value)
+                value = b.find_next(value)
 
         else:
-            node = B.find_rightmost(B.root)
+            node = b.find_rightmost(b.root)
             if node is not None:
                 value = node.value
             else:
                 value = node
             while (value is not None):
                 ret_value.append(value)
-                value = B.find_prev(value)
+                value = b.find_prev(value)
         return ret_value
 
 
-    def test():
-        t = [1, 4, 2, 5, 1, 3, 7, 11, 4.5]
-        A = BST()
-        for item in t:
-            print "inserting", item
-            A.insert(item)
-    #        B.plot(True)
-        print "End of inserts"
-        print "Deleting 5"
-        #A.plot()
-        A.delete(5)
-        print "Deleting 1"
-        #A.plot(True)    
-        A.delete(True)
-        #A.plot(False)
-        print A.root.value ==4
-        print A.find_next(3) ==4
-        print A.find_prev(7)==4.5
-        print A.find_prev(1) is None
-        print A.find_prev(7)==4.5
-        print A.find_prev(2) is None
-        print A.find_prev(11) == 7
+if __name__ == '__main__':
 
+    # x = range(100)
+    # bst = BST()
+    # for i in x:
+    #     bst.insert(i)
+    # bst.insert(42.1)
+    # dot_graph = bst.get_dot()
+    # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
+    # t.communicate(dot_graph)
 
-# if __name__ == '__main__':
+    def easy_tree():
+        x = random.sample(range(100), 100)
+        bst = BST()
+        bst.insert(50)
+        for i in x:
+            bst.insert(i)
+        bst.insert(42.1)
+        bst.contains(42.1)
 
-#     # x = range(100)
-#     # bst = BST()
-#     # for i in x:
-#     #     bst.insert(i)
-#     # bst.insert(42.1)
-#     # dot_graph = bst.get_dot()
-#     # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
-#     # t.communicate(dot_graph)
+    def hard_tree():
+        x = range(100)
+        bst = BST()
+        for i in x:
+            bst.insert(i)
+        bst.insert(42.1)
+        bst.contains(42.1)
 
-#     def easy_tree():
-#         x = random.sample(range(100), 100)
-#         bst = BST()
-#         bst.insert(50)
-#         for i in x:
-#             bst.insert(i)
-#         bst.insert(42.1)
-#         bst.contains(42.1)
-
-#     def hard_tree():
-#         x = range(100)
-#         bst = BST()
-#         for i in x:
-#             bst.insert(i)
-#         bst.insert(42.1)
-#         bst.contains(42.1)
-
-#     print(timeit.Timer("easy_tree()", setup="from __main__ import easy_tree").timeit(number=1000))
-#     print(timeit.Timer("hard_tree()", setup="from __main__ import hard_tree").timeit(number=1000))
+    print(timeit.Timer("easy_tree()", setup="from __main__ import easy_tree").timeit(number=1000))
+    print(timeit.Timer("hard_tree()", setup="from __main__ import hard_tree").timeit(number=1000))
