@@ -297,7 +297,15 @@ class BST(object):
             left-right=LR right-left=RL'''
         node.update_height(False)
         if node.balance == 2:
-            pass
+            if node.left_child.balance != -1:
+                # LL rotation
+                self.rotate_right(node)
+                if node.parent.parent is not None:
+                    self.balance(node.parent.parent)
+            else:
+                # LR rotation
+                self.rotate_left(node.left_child)
+                self.balance(node)
         elif node.balance == -2:
             pass
         else:
