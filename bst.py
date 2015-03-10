@@ -312,6 +312,11 @@ class BST(object):
                 self.rotate_left(node)
                 if node.parent.parent is not None:
                     self.balance(node.parent.parent)
+
+            else:
+                # RL rotation
+                self.rotate_right(node.right_child)
+                self.balance(node)
         else:
             if node.parent is not None:
                 self.balance(node.parent)
