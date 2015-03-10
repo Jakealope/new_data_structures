@@ -25,6 +25,14 @@ class BSTNode(object):
         ''''Helper function for acknowledging leaf'''
         return not (self.right_child or self.left_child)
 
+    def is_left(self):
+        '''Helper fuction for finding left child. Might be redundent with is_left
+           Will decide later........'''
+        if self.parent is None:
+            return self.parent
+        else:
+            return self is self.parent.left_child
+
     def update_height(self, bubble_up=True):
         '''If bubble_up is True, we go up the tree correcting height/balance
            if not we will just correct the node'''
@@ -241,6 +249,28 @@ class BST(object):
             if leaf.left:
                 leaf.left = self._delete(val, leaf.left)
             return leaf
+
+
+    def rotate_left(self, root):
+        left = root.is_left()
+        pivot = root.right_child
+
+        if pivot is None:
+            return
+        root.right_child = pivot.left_child
+        if pivot.left_child is not None:
+            root.right_child.parent = root
+        pivot.left_child = root
+        pivot.parent = root.parent
+        root.parent = pivot
+        if left is None:
+            self.root = pivot
+        elif left:
+            pivot.parent.left_child = pivot
+        else:
+            pivot.parent.right_child = pivot
+        root.update_height(False)
+        pivot.update_height(False)
 
 
 if __name__ == '__main__':
