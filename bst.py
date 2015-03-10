@@ -303,6 +303,27 @@ class BST(object):
         else:
             return self.find_rightmost(node.right_child)
 
+    def find_next(self, value):
+        node = self.find(value)
+        if (node is None) or (node.value != value):
+            return None
+        else:
+            right_child = node.right_child
+            if right_child is not None:
+                node = self.find_leftmost(right_child)
+            else:
+                parent = node.parent
+                while(parent is not None):
+                    if node is parent.left_child:
+                        break
+                    node = parent
+                    parent = node.parent
+                node = parent
+            if node is None:
+                return node
+            else:
+                return node.value
+
 
     def balance(self, node):
         ''' There are four posabilities for rotation
