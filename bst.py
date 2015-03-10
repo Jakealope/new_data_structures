@@ -345,7 +345,6 @@ class BST(object):
             else:
                 return node.value
 
-
     def balance(self, node):
         ''' There are four posabilities for rotation
             left-left=LL right-right=RR
@@ -376,13 +375,31 @@ class BST(object):
             if node.parent is not None:
                 self.balance(node.parent)
 
-    def sort(tree_maker, ascending=True):
+    def sort(self, tree_maker, ascending=True):
         t = BST()
         for item in tree_maker:
             t.insert(item)
-        ret = []
+        ret_value = []
         if ascending:
-            node = t.
+            node = t.find_leftmost(t.root)
+            if node is not None:
+                value = node.value
+            else:
+                value = node
+            while (value is not None):
+                ret_value.append(value)
+                value = t.find_next(value)
+
+        else:
+            node = t.find_rightmost(t.root)
+            if node is not None:
+                value = node.value
+            else:
+                value = node
+            while (value is not None):
+                ret_value.append(value)
+                value = t.find_prev(value)
+        return ret_value
 
 if __name__ == '__main__':
 
