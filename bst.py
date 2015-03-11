@@ -125,7 +125,7 @@ class BST(object):
         return ret_value
 
     def find(self, value):
-        if self.root = None:
+        if self.root is None:
             return None
         else:
             return self._find(value, self.root)
@@ -140,27 +140,27 @@ class BST(object):
         else:
             return node
 
-    def findMin(self):
+    def find_min(self):
         if self.root is None:
             return None
         else:
-            return self._findMin(self.root)
+            return self._find_min(self.root)
 
-    def _findMin(self):
+    def _find_min(self, node):
         if node.left:
-            return self._findMin(node.left)
+            return self._find_min(node.left)
         else:
             return node
 
-    def findMax(self, node):
+    def find_max(self, node):
         if self.root is None:
             return None
         else:
-            return self._findMax(self.root)
+            return self._find_max(self.root)
 
-    def _findMax(self, node):
+    def _find_max(self, node):
         if node.right:
-            return self._findMax(node.right)
+            return self._find_max(node.right)
         else:
             return node
 
@@ -263,7 +263,7 @@ class BST(object):
                 leaf.left = self._delete(val, leaf.left)
             return leaf
 
-    def L_Rotate(self, node):
+    def l_rotate(self, node):
         x = node.left
         node.left = x.right
         x.right = node
@@ -271,25 +271,26 @@ class BST(object):
         x.height = max(self.height(x.left), node.height) + 1
         return x
 
-    def R_Rotate(self, node):
-        x = node.left
+    def r_rotate(self, node):
+        x = node.right
         node.right = x.left
         x.left = node
         node.height = max(self.height(node.right), self.height(node.left)) + 1
         x.height = max(self.height(x.right), node.height) + 1
         return x
 
-    def LL_Rotate(self, node):
-        node.left = self.R_Rotate(node.left)
-        return self.L_Rotate(node)
+    def ll_rotate(self, node):
+        node.left = self.r_rotate(node.left)
+        return self.l_rotate(node)
 
-    def RR_Rotate(self, node):
-        node.right = self.L_Rotate(node.right)
-        return self.R_Rotate(node)
+    def rr_rotate(self, node):
+        node.right = self.l_rotate(node.right)
+        return self.r_rotate(node)
 
+    ''' This is the insert function for the AVL tree that will balance itself on insert'''
     def put(self, value):
         if not self.root:
-            self.root = Node(value)
+            self.root = BSTNode(value)
         else:
             self.root = self._put(value, self.root)
 
@@ -300,16 +301,16 @@ class BST(object):
             node.left = self._put(value, node.left)
             if (self.height(node.left) - self.height(node.right)) == 2:
                 if value < node.left.value:
-                    node = self.L_Rotate(node)
+                    node = self.l_rotate(node)
                 else:
-                    node = self.LL_Rotate(node)
+                    node = self.ll_rotate(node)
         elif value > node.value:
             node.right = self._put(value, node.right)
             if (self.height(node.right) - self.height(node.left)) == 2:
                 if value < node.right.value:
-                    node = self.RR_Rotate(node)
+                    node = self.rr_rotate(node)
                 else:
-                    node = self.R_Rotate(node)
+                    node = self.r_rotate(node)
 
         node.height = max(self.height(node.right), self.height(node.left)) + 1
         return node
@@ -317,14 +318,13 @@ class BST(object):
 
 if __name__ == '__main__':
 
-    # x = range(100)
-    # bst = BST()
-    # for i in x:
-    #     bst.insert(i)
-    # bst.insert(42.1)
-    # dot_graph = bst.get_dot()
-    # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
-    # t.communicate(dot_graph)
+    x = range(100)
+    bst = BST()
+    for i in x:
+        bst.put(i)
+    dot_graph = bst.get_dot()
+    t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
+    t.communicate(dot_graph)
 
     def easy_tree():
         x = random.sample(range(100), 100)
