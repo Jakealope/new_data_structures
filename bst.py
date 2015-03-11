@@ -14,6 +14,7 @@ class BSTNode(object):
         self.parent = parent
         self.left = left_child
         self.right = right_child
+        self.height = 0
 
     def is_root(self):
         '''Helper function for root node'''
@@ -123,6 +124,52 @@ class BST(object):
             ret_value -= self._depth(1, self.root.right)
         return ret_value
 
+    def find(self, value):
+        if self.root = None:
+            return None
+        else:
+            return self._find(value, self.root)
+
+    def _find(self, value, node):
+        if node is None:
+            return None
+        elif value < node.value:
+            return self._find(value, self.left)
+        elif value > node.value:
+            return self._find(value, self.right)
+        else:
+            return node
+
+    def findMin(self):
+        if self.root is None:
+            return None
+        else:
+            return self._findMin(self.root)
+
+    def _findMin(self):
+        if node.left:
+            return self._findMin(node.left)
+        else:
+            return node
+
+    def findMax(self, node):
+        if self.root is None:
+            return None
+        else:
+            return self._findMax(self.root)
+
+    def _findMax(self, node):
+        if node.right:
+            return self._findMax(node.right)
+        else:
+            return node
+
+    def height(self, node):
+        if node is None:
+            return -1
+        else:
+            return node.height
+
     def get_dot(self):
         """return the tree with root 'self' as a dot graph for visualization"""
         return "digraph G{\n%s}" % ("" if self.root.value is None else (
@@ -215,6 +262,57 @@ class BST(object):
             if leaf.left:
                 leaf.left = self._delete(val, leaf.left)
             return leaf
+
+    def L_Rotate(self, node):
+        x = node.left
+        node.left = x.right
+        x.right = node
+        node.height = max(self.height(node.right), self.height(node.left)) + 1
+        x.height = max(self.height(x.left), node.height) + 1
+        return x
+
+    def R_Rotate(self, node):
+        x = node.left
+        node.right = x.left
+        x.left = node
+        node.height = max(self.height(node.right), self.height(node.left)) + 1
+        x.height = max(self.height(x.right), node.height) + 1
+        return x
+
+    def LL_Rotate(self, node):
+        node.left = self.R_Rotate(node.left)
+        return self.L_Rotate(node)
+
+    def RR_Rotate(self, node):
+        node.right = self.L_Rotate(node.right)
+        return self.R_Rotate(node)
+
+    def put(self, value):
+        if not self.root:
+            self.root = Node(value)
+        else:
+            self.root = self._put(value, self.root)
+
+    def _put(self, value, node):
+        if node is None:
+            node = BSTNode(value)
+        elif value < node.value:
+            node.left = self._put(value, node.left)
+            if (self.height(node.left) - self.height(node.right)) == 2:
+                if value < node.left.value:
+                    node = self.L_Rotate(node)
+                else:
+                    node = self.LL_Rotate(node)
+        elif value > node.value:
+            node.right = self._put(value, node.right)
+            if (self.height(node.right) - self.height(node.left)) == 2:
+                if value < node.right.value:
+                    node = self.RR_Rotate(node)
+                else:
+                    node = self.R_Rotate(node)
+
+        node.height = max(self.height(node.right), self.height(node.left)) + 1
+        return node
 
 
 if __name__ == '__main__':
