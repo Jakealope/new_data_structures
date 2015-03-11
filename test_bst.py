@@ -167,3 +167,42 @@ def test_big_insert_delete():
         bst.insert(i)
     bst.delete('50')
     assert bst.contains('50') is False
+
+
+def test_balance_two():
+    bst = BST()
+    bst.put('5')
+    bst.put('10')
+    bst.put('1')
+    assert bst.balance() == 0
+
+
+def test_balance_three():
+    bst = BST()
+    bst.put('10')
+    bst.put('2')
+    bst.put('5')
+    bst.put('9')
+    bst.put('3')
+    assert bst.balance() == -1
+
+
+def test_balance_four():
+    bst = BST()
+    for x in range(1000):
+        bst.put(x)
+    assert -1 <= bst.balance() <= 1
+
+
+def test_balance_five():
+    bst = BST()
+    for x in range(100):
+        bst.put(x)
+    assert bst.balance() == 0
+
+
+def test_balance_six():
+    bst = BST()
+    for x in random.sample(range(1000), 1000):
+        bst.put(x)
+    assert -1 <= bst.balance() <= 1
