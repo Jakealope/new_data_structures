@@ -7,7 +7,7 @@ class HashTable(object):
 
     def hash(self, key):
         if not isinstance(key, basestring):
-            raise TypeError("key must be in string format")
+            raise TypeError("Key must be in string format")
         ord_val = 0
         for letter in key:
             ord_val += ord(letter)
@@ -20,3 +20,10 @@ class HashTable(object):
                 item[1] = value
                 return
         self._hash_list[hash].append([key, value])
+
+    def get(self, key):
+        hash = self.hash(key)
+        for item in self._hash_list[hash]:
+            if item[0] == key:
+                return item[1]
+        raise KeyError("Key not found")
