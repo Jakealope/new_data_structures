@@ -1,7 +1,7 @@
 class HashTable(object):
     """Implment hash table"""
 
-    def __init__(self, size=0000000):
+    def __init__(self, size=1024):
         self._list_size = size
         self._hash_list = [[] for _hash in xrange(0, size)]
 
