@@ -3,7 +3,9 @@
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
 import timeit
 import random
-import subprocess
+'''commented it out because its a dick if you run this without pointing it to a file to print in.'''
+# import subprocess
+from collections import deque
 
 
 class BSTNode(object):
@@ -13,6 +15,7 @@ class BSTNode(object):
         self.parent = parent
         self.left = left_child
         self.right = right_child
+        self.height = 0
 
     def is_root(self):
         '''Helper function for root node'''
@@ -122,6 +125,12 @@ class BST(object):
             ret_value -= self._depth(1, self.root.right)
         return ret_value
 
+    def height(self, node):
+        if node is None:
+            return -1
+        else:
+            return node.height
+
     def get_dot(self):
         """return the tree with root 'self' as a dot graph for visualization"""
         return "digraph G{\n%s}" % ("" if self.root.value is None else (
@@ -131,17 +140,152 @@ class BST(object):
             )
         ))
 
+    def in_order(self):
+        return self._in_order(self.root)
+
+    def _in_order(self, leaf):
+        if leaf is None:
+            return
+        for value in self._in_order(leaf.left):
+            yield value
+        yield leaf.value
+        for value in self._in_order(leaf.right):
+            yield value
+
+    def pre_order(self):
+        return self._pre_order(self.root)
+
+    def _pre_order(self, leaf):
+        if leaf is None:
+            return
+        yield leaf.value
+        for value in self._pre_order(leaf.left):
+            yield value
+        for value in self._pre_order(leaf.right):
+            yield value
+
+    def post_order(self):
+        return self._post_order(self.root)
+
+    def _post_order(self, leaf):
+        if leaf is None:
+            return
+        for value in self._post_order(leaf.left):
+            yield value
+        for value in self._post_order(leaf.right):
+            yield value
+        yield leaf.value
+
+    def breadth_traversal(self):
+        x = deque()
+        x.append(self.root)
+        while x:
+            leaf = x.popleft()
+            yield leaf.value
+            if leaf.left:
+                x.append(leaf.left)
+            if leaf.right:
+                x.append(leaf.right)
+
+    def delete(self, val):
+        self.root = self._delete(val, self.root)
+        return None
+
+    def _delete(self, val, leaf):
+        def _descendants(leaf):
+            if leaf.left:
+                return _descendants(leaf.left)
+            else:
+                return leaf.value
+
+        if not leaf:
+            return None
+
+        if leaf.value == val:
+            self._size -= 1
+            if leaf.left and leaf.right:
+                leaf.value = _descendants(leaf.right)
+                leaf.right = self._delete(leaf.value, leaf.right)
+                return leaf
+            elif leaf.left and not leaf.right:
+                return leaf.left
+            elif not leaf.left and leaf.right:
+                return leaf.right
+            else:
+                return None
+
+        elif leaf.value < val:
+            if leaf.right:
+                leaf.right = self._delete(val, leaf.right)
+            return leaf
+
+        else:
+            if leaf.left:
+                leaf.left = self._delete(val, leaf.left)
+            return leaf
+
+    def l_rotate(self, node):
+        x = node.left
+        node.left = x.right
+        x.right = node
+        node.height = max(self.height(node.right), self.height(node.left)) + 1
+        x.height = max(self.height(x.left), node.height) + 1
+        return x
+
+    def r_rotate(self, node):
+        x = node.right
+        node.right = x.left
+        x.left = node
+        node.height = max(self.height(node.right), self.height(node.left)) + 1
+        x.height = max(self.height(x.right), node.height) + 1
+        return x
+
+    def ll_rotate(self, node):
+        node.left = self.r_rotate(node.left)
+        return self.l_rotate(node)
+
+    def rr_rotate(self, node):
+        node.right = self.l_rotate(node.right)
+        return self.r_rotate(node)
+
+    ''' This is the insert function for the AVL tree that will balance itself on insert'''
+    def put(self, value):
+        if not self.root:
+            self.root = BSTNode(value)
+        else:
+            self.root = self._put(value, self.root)
+
+    def _put(self, value, node):
+        if node is None:
+            node = BSTNode(value)
+        elif value < node.value:
+            node.left = self._put(value, node.left)
+            if (self.height(node.left) - self.height(node.right)) == 2:
+                if value < node.left.value:
+                    node = self.l_rotate(node)
+                else:
+                    node = self.ll_rotate(node)
+        elif value > node.value:
+            node.right = self._put(value, node.right)
+            if (self.height(node.right) - self.height(node.left)) == 2:
+                if value < node.right.value:
+                    node = self.rr_rotate(node)
+                else:
+                    node = self.r_rotate(node)
+
+        node.height = max(self.height(node.right), self.height(node.left)) + 1
+        return node
+
 
 if __name__ == '__main__':
 
-    x = range(100)
-    bst = BST()
-    for i in x:
-        bst.insert(i)
-    bst.insert(42.1)
-    dot_graph = bst.get_dot()
-    t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
-    t.communicate(dot_graph)
+    # x = range(100)
+    # bst = BST()
+    # for i in x:
+    #     bst.put(i)
+    # dot_graph = bst.get_dot()
+    # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
+    # t.communicate(dot_graph)
 
     def easy_tree():
         x = random.sample(range(100), 100)
