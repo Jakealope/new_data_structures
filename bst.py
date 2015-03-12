@@ -3,7 +3,8 @@
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
 import timeit
 import random
-import subprocess
+'''commented it out because its a dick if you run this without pointing it to a file to print in.'''
+# import subprocess
 from collections import deque
 
 
@@ -123,46 +124,6 @@ class BST(object):
         if self.root.right:
             ret_value -= self._depth(1, self.root.right)
         return ret_value
-
-    def find(self, value):
-        if self.root is None:
-            return None
-        else:
-            return self._find(value, self.root)
-
-    def _find(self, value, node):
-        if node is None:
-            return None
-        elif value < node.value:
-            return self._find(value, self.left)
-        elif value > node.value:
-            return self._find(value, self.right)
-        else:
-            return node
-
-    def find_min(self):
-        if self.root is None:
-            return None
-        else:
-            return self._find_min(self.root)
-
-    def _find_min(self, node):
-        if node.left:
-            return self._find_min(node.left)
-        else:
-            return node
-
-    def find_max(self, node):
-        if self.root is None:
-            return None
-        else:
-            return self._find_max(self.root)
-
-    def _find_max(self, node):
-        if node.right:
-            return self._find_max(node.right)
-        else:
-            return node
 
     def height(self, node):
         if node is None:
@@ -318,13 +279,13 @@ class BST(object):
 
 if __name__ == '__main__':
 
-    x = range(100)
-    bst = BST()
-    for i in x:
-        bst.put(i)
-    dot_graph = bst.get_dot()
-    t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
-    t.communicate(dot_graph)
+    # x = range(100)
+    # bst = BST()
+    # for i in x:
+    #     bst.put(i)
+    # dot_graph = bst.get_dot()
+    # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
+    # t.communicate(dot_graph)
 
     def easy_tree():
         x = random.sample(range(100), 100)
