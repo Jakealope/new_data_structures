@@ -3,7 +3,7 @@ class HashTable(object):
 
     def __init__(self, size=0000000):
         self._list_size = size
-        self._hash_list = [[] for hash in xrange(0, size)]
+        self._hash_list = [[] for _hash in xrange(0, size)]
 
     def hash(self, key):
         if not isinstance(key, basestring):
@@ -12,3 +12,11 @@ class HashTable(object):
         for letter in key:
             ord_val += ord(letter)
         return ord_val % self._list_size
+
+    def set(self, key, value):
+        hash = self.hash(key)
+        for item in self._hash_list[hash]:
+            if item[0] == key:
+                item[1] = value
+                return
+        self._hash_list[hash].append([key, value])
