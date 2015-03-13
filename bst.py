@@ -1,10 +1,10 @@
 # http://blog.shayanjaved.com/2012/01/14/binary-search-tree-in-python/
-
+# http://www.programering.com/a/MjMykDNwATQ.html
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
 import timeit
 import random
-'''commented it out because its a dick if you run this without pointing it to a file to print in.'''
-# import subprocess
+# commented it out because its a dick if you run this without pointing it to a file to print in.
+import subprocess
 from collections import deque
 
 
@@ -187,6 +187,46 @@ class BST(object):
             if leaf.right:
                 x.append(leaf.right)
 
+    def find(self, value):
+        if self.root is None:
+            return None
+        else:
+            return self._find(value, self.root)
+
+    def _find(self, value, node):
+        if node is None:
+            return None
+        elif value < node.value:
+            return self._find(value, self.left)
+        elif value > node.value:
+            return self._find(value, self.right)
+        else:
+            return node
+
+    def find_min(self):
+        if self.root is None:
+            return None
+        else:
+            return self._find_min(self.root)
+
+    def _find_min(self, node):
+        if node.left:
+            return self._find_min(node.left)
+        else:
+            return node
+
+    def find_max(self, node):
+        if self.root is None:
+            return None
+        else:
+            return self._find_max(self.root)
+
+    def _find_max(self, node):
+        if node.right:
+            return self._find_max(node.right)
+        else:
+            return node
+
     def delete(self, val):
         self.root = self._delete(val, self.root)
         return None
@@ -207,9 +247,9 @@ class BST(object):
                 leaf.value = _descendants(leaf.right)
                 leaf.right = self._delete(leaf.value, leaf.right)
                 return leaf
-            elif leaf.left and not leaf.right:
+            elif leaf.left:
                 return leaf.left
-            elif not leaf.left and leaf.right:
+            elif leaf.right:
                 return leaf.right
             else:
                 return None
@@ -279,13 +319,15 @@ class BST(object):
 
 if __name__ == '__main__':
 
-    # x = range(100)
-    # bst = BST()
-    # for i in x:
-    #     bst.put(i)
-    # dot_graph = bst.get_dot()
-    # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
-    # t.communicate(dot_graph)
+    bst = BST()
+    bst.put(10)
+    bst.put(2)
+    bst.put(5)
+    bst.put(9)
+    bst.put(3)
+    dot_graph = bst.get_dot()
+    t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
+    t.communicate(dot_graph)
 
     def easy_tree():
         x = random.sample(range(100), 100)
