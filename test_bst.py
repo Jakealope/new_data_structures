@@ -125,39 +125,39 @@ def test_breadth_traversal(tree_test):
 
 def test_delete_one():
     tree = BST()
-    tree.insert('1')
-    tree.insert('3')
-    tree.delete('3')
-    assert tree.contains('1') is True
+    tree.insert(1)
+    tree.insert(3)
+    tree.delete(3)
+    assert tree.contains(1) is True
 
 
 def test_delete_two():
     t = BST()
-    t.insert('1')
-    t.insert('2')
-    t.insert('3')
-    t.delete('2')
-    assert t.contains('1') is True
+    t.insert(1)
+    t.insert(2)
+    t.insert(3)
+    t.delete(2)
+    assert t.contains(1) is True
 
 
 def test_multi_delete():
     t = BST()
-    t.insert('1')
-    t.insert('2')
-    t.insert('3')
-    t.insert('4')
-    t.insert('5')
-    t.insert('6')
-    t.delete('3')
-    t.delete('5')
-    assert t.contains('4') is True
+    t.insert(1)
+    t.insert(2)
+    t.insert(3)
+    t.insert(4)
+    t.insert(5)
+    t.insert(6)
+    t.delete(3)
+    t.delete(5)
+    assert t.contains(4) is True
 
 
 def test_no_kids():
     t = BST()
-    t.insert('1')
-    t.delete('1')
-    assert t.contains('1') is False
+    t.insert(1)
+    t.delete(1)
+    assert t.contains(1) is False
 
 
 def test_big_insert_delete():
@@ -165,33 +165,33 @@ def test_big_insert_delete():
     bst = BST()
     for i in x:
         bst.insert(i)
-    bst.delete('50')
-    assert bst.contains('50') is False
+    bst.delete(50)
+    assert bst.contains(50) is False
 
 
 def test_balance_two():
     bst = BST()
-    bst.put('5')
-    bst.put('10')
-    bst.put('1')
+    bst.put(5)
+    bst.put(10)
+    bst.put(1)
     assert bst.balance() == 0
 
 
 def test_balance_three():
     bst = BST()
-    bst.put('10')
-    bst.put('2')
-    bst.put('5')
-    bst.put('9')
-    bst.put('3')
-    assert bst.balance() == -1
+    bst.put(10)
+    bst.put(2)
+    bst.put(5)
+    bst.put(9)
+    bst.put(3)
+    assert bst.balance() == 0
 
 
 def test_balance_four():
     bst = BST()
     for x in range(1000):
         bst.put(x)
-    assert -1 <= bst.balance() <= 1
+        assert -1 <= bst.balance() <= 1
 
 
 def test_balance_five():
@@ -205,4 +205,4 @@ def test_balance_six():
     bst = BST()
     for x in random.sample(range(1000), 1000):
         bst.put(x)
-    assert -1 <= bst.balance() <= 1
+        assert -1 <= bst.balance() <= 1
