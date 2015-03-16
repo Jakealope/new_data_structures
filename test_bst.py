@@ -1,9 +1,9 @@
 from bst import BST
-import pytest
+# import pytest
 import random
 
 
-@pytest.fixture(scope="function")
+# @pytest.fixture(scope="function")
 def tree_maker():
     t = BST()
     t.insert(1)
@@ -14,7 +14,7 @@ def tree_maker():
     return t
 
 
-@pytest.fixture(scope="function")
+# @pytest.fixture(scope="function")
 def tree_test(tree_maker):
     tree_maker.insert(15)
     tree_maker.insert(5)
@@ -206,3 +206,49 @@ def test_balance_six():
     for x in random.sample(range(1000), 1000):
         bst.put(x)
         assert -1 <= bst.balance() <= 1
+
+
+def test_balance_after_delete():
+    bst = BST()
+    for x in range(100):
+        bst.put(x)
+    bst.delete_avl(50)
+    assert -1 <= bst.balance() <= 1
+
+
+def test_dual_delete():
+    bst = BST()
+    for x in range(1000):
+        bst.put(x)
+    bst.delete_avl(100)
+    bst.delete_avl(101)
+    bst.delete_avl(103)
+    bst.delete_avl(104)
+    assert -1 <= bst.balance() <= 1
+    assert bst.contains(100) is False
+    assert bst.contains(101) is False
+    assert bst.contains(102) is False
+    assert bst.contains(103) is False
+    assert bst.contains(104) is False
+
+
+def test_range_delete():
+    bst = BST()
+    for x in range(1000):
+        bst.put(x)
+    for d in range(100, 170):
+        bst.delete_avl(d)
+    assert -1 <= bst.balance() <= 1
+    assert bst.contains(d) is False
+
+
+def test_range_delete_duplicate():
+    bst = BST()
+    for x in range(1000):
+        bst.put(x)
+    for d in range(100, 110):
+        bst.delete_avl(d)
+    assert -1 <= bst.balance() <= 1
+    with pytest.raises(ValueError) as nodelete:
+            bst.delete_avl(105)
+    assert nodelete.value.message == 'value not in tree'
