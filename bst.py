@@ -16,6 +16,7 @@ class BSTNode(object):
         self.left = left_child
         self.right = right_child
         self.height = 0
+        self.balance = 0
 
     def is_root(self):
         '''Helper function for root node'''
@@ -24,6 +25,38 @@ class BSTNode(object):
     def is_leaf(self):
         ''''Helper function for acknowledging leaf'''
         return not (self.right_child or self.left_child)
+
+    def is_left(self):
+        '''Helper fuction for finding left child. Might be redundent with is_left
+           Will decide later........'''
+        if self.parent is None:
+            return self.parent
+        else:
+            return self is self.parent.left_child
+
+    def update_height(self, bubble_up=True):
+        '''If bubble_up is True, we go up the tree correcting height/balance
+           if not we will just correct the node'''
+        if self.left_child is None:
+            # set the left tree to zero
+            left_height = 0
+        else:
+            left_height = self.left_child.height + 1
+        if self.right_child is None:
+            # set the right tree to zero
+            right_height = 0
+        else:
+            right_height = self.right_child.height + 1
+            # we want to be able to balance even if we don't change the height
+
+        self.balance = left_height - right_height
+        height = max(left_height, right_height)
+        if self.height != height:
+            self.height = height
+            if self.parent is not None:
+                # We only bubble up if the height changes
+                if bubble_up:
+                    self.parent.update_height()
 
     def _get_dot(self):
         """recursively prepare a dot graph entry for this node."""
@@ -114,7 +147,7 @@ class BST(object):
             r_depth = self._depth(curr_depth + 1, local_root.right)
         return max(curr_depth, l_depth, r_depth)
 
-    def balance(self):
+    def is_balanced(self):
         '''Return positive or negative integer to represent tree balance'''
         ret_value = 0
         if self.root is None:
@@ -275,6 +308,177 @@ class BST(object):
 
         node.height = max(self.height(node.right), self.height(node.left)) + 1
         return node
+
+    def rotate_left(self, root):
+        left = root.is_left()
+        pivot = root.right_child
+
+        if pivot is None:
+            return
+        root.right_child = pivot.left_child
+        if pivot.left_child is not None:
+            root.right_child.parent = root
+        pivot.left_child = root
+        pivot.parent = root.parent
+        root.parent = pivot
+        if left is None:
+            self.root = pivot
+        elif left:
+            pivot.parent.left_child = pivot
+        else:
+            pivot.parent.right_child = pivot
+        root.update_height(False)
+        pivot.update_height(False)
+
+    def rotate_right(self, root):
+        left = root.is_left()
+        pivot = root.left_child
+        if pivot is None:
+            return
+        root.left_child = pivot.right_child
+        if pivot.right_child is not None:
+            root.left_child.parent = root
+        pivot.right_child = root
+        pivot.parent = root.parent
+        root.parent = pivot
+        if left is None:
+            self.root = pivot
+        elif left:
+            pivot.parent.left_child = pivot
+        else:
+            pivot.parent.right_child = pivot
+        root.update_height(False)
+        pivot.update_height(False)
+
+    def find_leftmost(self, node):
+        if node.left_child is None:
+            return node
+        else:
+            return self.find_leftmost(node.left_child)
+
+    def find_rightmost(self, node):
+        if node.right_child is None:
+            return node
+        else:
+            return self.find_rightmost(node.right_child)
+
+    def find_next(self, value):
+        node = self.find(value)
+        if (node is None) or (node.value != value):
+            return None
+        else:
+            right_child = node.right_child
+            if right_child is not None:
+                node = self.find_leftmost(right_child)
+            else:
+                parent = node.parent
+                while(parent is not None):
+                    if node is parent.left_child:
+                        break
+                    node = parent
+                    parent = node.parent
+                node = parent
+            if node is None:
+                return node
+            else:
+                return node.value
+
+    def find_prev(self, value):
+        node = self.find(value)
+        if (node is None) or (node.value != value):
+            return None
+        else:
+            left_child = node.left_child
+            if left_child is not None:
+                node = self.find_leftmost(left_child)
+            else:
+                parent = node.parent
+                while(parent is not None):
+                    if node is parent.right_child:
+                        break
+                    node = parent
+                    parent = node.parent
+                node = parent
+            if node is None:
+                return node
+            else:
+                return node.value
+
+    def find(self, value, node=None):
+        if node is None:
+            node = self.root
+            if self.root is None:
+                return None
+            else:
+                return self.find(value, self.root)
+        elif node.value == value:
+            return node
+        elif value < node.value:
+            if node.left_child is None:
+                return node
+            else:
+                return self.find(value, node.left_child)
+        else:
+            if node.right_child is None:
+                return node
+            else:
+                return self.find(value, node.right_child)
+
+    def balance(self, node):
+        ''' There are four posabilities for rotation
+            left-left=LL right-right=RR
+            left-right=LR right-left=RL'''
+        node.update_height(False)
+        if node.balance == 2:
+            if node.left_child.balance != -1:
+                # LL rotation
+                self.rotate_right(node)
+                if node.parent.parent is not None:
+                    self.balance(node.parent.parent)
+            else:
+                # LR rotation
+                self.rotate_left(node.left_child)
+                self.balance(node)
+        elif node.balance == -2:
+            if node.right_child.balance != 1:
+                # RR rotation
+                self.rotate_left(node)
+                if node.parent.parent is not None:
+                    self.balance(node.parent.parent)
+
+            else:
+                # RL rotation
+                self.rotate_right(node.right_child)
+                self.balance(node)
+        else:
+            if node.parent is not None:
+                self.balance(node.parent)
+
+    def sort(self, tree_maker, ascending=True):
+        b = BST()
+        for item in tree_maker:
+            b.insert(item)
+        ret_value = []
+        if ascending:
+            node = b.find_leftmost(b.root)
+            if node is not None:
+                value = node.value
+            else:
+                value = node
+            while (value is not None):
+                ret_value.append(value)
+                value = b.find_next(value)
+
+        else:
+            node = b.find_rightmost(b.root)
+            if node is not None:
+                value = node.value
+            else:
+                value = node
+            while (value is not None):
+                ret_value.append(value)
+                value = b.find_prev(value)
+        return ret_value
 
 
 if __name__ == '__main__':

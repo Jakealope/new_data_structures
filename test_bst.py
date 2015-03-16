@@ -52,11 +52,11 @@ def test_big_size():
     assert t.size() == 1000
 
 
-def test_balance():
+def test_is_balanced():
     t = BST()
     for i in range(10):
         t.insert(i)
-    assert t.balance() == -9
+    assert t.is_balanced() == -9
 
 
 def test_negative_input():
@@ -66,11 +66,11 @@ def test_negative_input():
     assert t.contains(i) is True
 
 
-def test_negative_input_balance():
+def test_negative_input_is_balanced():
     t = BST()
     for i in range(10, -10, -1):
         t.insert(i)
-    assert t.balance() == 19
+    assert t.is_balanced() == 19
 
 
 def test_depth():
@@ -206,3 +206,23 @@ def test_balance_six():
     for x in random.sample(range(1000), 1000):
         bst.put(x)
     assert -1 <= bst.balance() <= 1
+
+
+def test_finding_nodes():
+    t = [1, 4, 2, 5, 1, 3, 7, 11, 4.5]
+    a = BST()
+    for item in t:
+        print "inserting", item
+        a.insert(item)
+    print "End of inserts"
+    print "Deleting 5"
+    a.delete(5)
+    print "Deleting 1"
+    a.delete(True)
+    assert a.root.value == 4
+    assert a.find_next(3) == 4
+    assert a.find_prev(7) == 4.5
+    assert a.find_prev(1) is None
+    assert a.find_prev(7) == 4.5
+    assert a.find_prev(2) is None
+    assert a.find_prev(11) == 7
