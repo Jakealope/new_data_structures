@@ -227,6 +227,8 @@ class BST(object):
         else:
             return node
 
+    '''This is the meathod for the bst deletion
+       And it will not rebalance'''
     def delete(self, val):
         self.root = self._delete(val, self.root)
         return None
@@ -288,7 +290,8 @@ class BST(object):
         node.right = self.l_rotate(node.right)
         return self.r_rotate(node)
 
-    ''' This is the insert function for the AVL tree that will balance itself on insert'''
+    ''' This is the insert function for the AVL tree
+       it will balance itself on insert'''
     def put(self, value):
         if not self.root:
             self.root = BSTNode(value)
@@ -316,26 +319,57 @@ class BST(object):
         node.height = max(self.height(node.right), self.height(node.left)) + 1
         return node
 
+    '''These functions will remove nodes when given a value,
+       then will rebalance out the tree'''
+    def delete_avl(self, value):
+            self.root = self.remove(value, self.root)
+
+    def remove(self, value, node):
+        if node is None:
+            raise ValueError('value not in tree')
+
+        elif value < node.value:
+            node.left = self.remove(value, node.left)
+            if (self.height(node.right) - self.height(node.left)) == 2:
+                if self.height(node.right.right) >= self.height(node.right.left):
+                    node = self.r_rotate(node)
+                else:
+                    node = self.rr_rotate(node)
+            node.height = max(self.height(node.left), self.height(node.right)) + 1
+
+        elif value > node.value:
+            node.right = self.remove(value, node.right)
+            if (self.height(node.left) - self.height(node.right)) == 2:
+                if self.height(node.left.left) >= self.height(node.left.right):
+                    node = self.l_rotate(node)
+                else:
+                    node = self.ll_rotate(node)
+            node.height = max(self.height(node.left), self.height(node.right)) + 1
+
+        else:
+            if node.right:
+                node = node.right
+            else:
+                node = node.left
+        return node
 
 if __name__ == '__main__':
 
-    bst = BST()
-    bst.put(10)
-    bst.put(2)
-    bst.put(5)
-    bst.put(9)
-    bst.put(3)
-    dot_graph = bst.get_dot()
-    t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
-    t.communicate(dot_graph)
+    # x = random.sample(range(100), 100)
+    # bst = BST()
+    # for i in x:
+    #     bst.put(i)
+    # bst.put(42.1)
+    # dot_graph = bst.get_dot()
+    # t = subprocess.Popen(["dot", "-Tpng"], stdin=subprocess.PIPE)
+    # t.communicate(dot_graph)
 
     def easy_tree():
         x = random.sample(range(100), 100)
         bst = BST()
-        bst.insert(50)
         for i in x:
-            bst.insert(i)
-        bst.insert(42.1)
+            bst.put(i)
+        bst.put(42.1)
         bst.contains(42.1)
 
     def hard_tree():
@@ -346,5 +380,7 @@ if __name__ == '__main__':
         bst.insert(42.1)
         bst.contains(42.1)
 
-    print(timeit.Timer("easy_tree()", setup="from __main__ import easy_tree").timeit(number=1000))
-    print(timeit.Timer("hard_tree()", setup="from __main__ import hard_tree").timeit(number=1000))
+    print(timeit.Timer("easy_tree()",
+          setup="from __main__ import easy_tree").timeit(number=1000))
+    print(timeit.Timer("hard_tree()",
+          setup="from __main__ import hard_tree").timeit(number=1000))
