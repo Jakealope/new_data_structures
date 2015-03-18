@@ -1,6 +1,5 @@
 from merge_sort import m_sort
 import random
-import pytest
 
 
 def test_sort_one():
@@ -10,4 +9,9 @@ def test_sort_one():
 
 def test_sort_two():
     x = range(10, 0, -1)
-    assert m_sort(x) == range(10)
+    assert m_sort(x) == range(1, 11)
+
+
+def test_sort_three():
+    x = random.sample(range(1000), 1000)
+    assert m_sort(x) == range(1000)
