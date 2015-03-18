@@ -15,3 +15,8 @@ def test_sort_two():
 def test_sort_three():
     x = random.sample(range(1000), 1000)
     assert m_sort(x) == range(1000)
+
+
+def test_sort_four():
+    x = random.sample(range(100000), 100000)
+    assert m_sort(x) == range(100000)
