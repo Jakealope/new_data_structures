@@ -10,7 +10,7 @@ def q_sort(self):
         return self
 
     else:
-        pivot = self[0]
+        pivot = random.choice(self)
         for i in self:
             if i < pivot:
                 lower.append(i)
