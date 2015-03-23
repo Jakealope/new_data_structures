@@ -1,17 +1,41 @@
 import random
-from radix_sort import sort_radix
+from radix_sort import r_sort, string_radix
 
 
 def test_sort_one():
-    sr = sort_radix(random.sample(range(100), 100))
-    assert sr == range(100)
+    x = random.sample(range(100000), 100000)
+    assert r_sort(x) == range(100000)
 
 
 def test_sort_two():
-    sr = sort_radix(range(1000, 0, -1))
-    assert sr == range(1000)
+    sr = r_sort(range(10000, -1, -1))
+    assert sr == range(0, 10001)
 
 
 def test_sort_three():
-    sr = ['of', 'words', 'n', 'shit']
-    assert sr == ['n', 'of', 'shit', 'words']
+    somestring = ("of", "words", "shit", "n")
+    assert string_radix(somestring) == ['n', 'of', 'shit', 'words']
+
+
+def test_big_strings():
+    bigstring = ["this is a big string", "Here is a big one too",
+                 "honestly I'm not too sure what to put in this one"]
+    assert string_radix(bigstring) == ['Here is a big one too',
+                                       "honestly I'm not too sure what to put in this one",
+                                       'this is a big string']
+
+
+'''things to do:
+Make this work... It is currently putting all the upper case first,
+instead of just blending them in..'''
+
+# def test_huge_input():
+#     with open("/usr/share/dict/words", "r") as afile:
+#         word = [i for i in afile]
+#         for word in afile:
+#             word.strip()
+#             word.shuffle()
+#             word.tolower()
+#             if not word:
+#                 break
+#         assert string_radix(word) == word
