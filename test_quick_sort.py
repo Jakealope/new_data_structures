@@ -23,5 +23,5 @@ def test_sort_big_backwards():
 
 
 def test_sort_random():
-    x = random.sample(range(100), 100)
-    assert q_sort(x) == range(100)
+    x = random.sample(xrange(10000), 10000)
+    assert q_sort(x) == range(10000)
