@@ -35,7 +35,7 @@ def string_radix(arr, base=128):
         return arr
 
     index_num = 0
-    index_place = (len(longest) - 1)
+    index_place = (longest - 1)
     buckets = [[] for x in range(base)]
 
     while index_place >= 0:
