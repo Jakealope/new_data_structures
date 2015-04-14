@@ -17,10 +17,7 @@ def r_sort(alist, base=10):
             alist.extend(bucket)
         return alist
 
-    max_val = 0
-    for i in alist:
-        if i > max_val:
-            max_val = i
+    max_val = max(alist)
 
     it = 0
 
