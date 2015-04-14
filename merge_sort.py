@@ -5,7 +5,7 @@ def m_sort(self):
     if len(self) <= 1:
         return self
 
-    middle = len(self) / 2
+    middle = len(self) // 2
     left = self[:middle]
     right = self[middle:]
 
@@ -50,15 +50,15 @@ if __name__ == '__main__':
         x = range(1000, 0, -1)
         m_sort(x)
 
-    print "This is sorting a range from 1-100"
+    print("This is sorting a range from 1-100")
     print(timeit.Timer("easy_sort()",
                        setup="from __main__ import easy_sort").timeit(number=1000))
-    print "This is sorting a range 100-1"
+    print("This is sorting a range 100-1")
     print(timeit.Timer("hard_sort()",
                        setup="from __main__ import hard_sort").timeit(number=1000))
-    print "This is sorting a range from 1-1000"
+    print("This is sorting a range from 1-1000")
     print(timeit.Timer("long_sort()",
                        setup="from __main__ import long_sort").timeit(number=1000))
-    print "This is sorting a range 1000-1"
+    print("This is sorting a range 1000-1")
     print(timeit.Timer("long_hard_sort()",
                        setup="from __main__ import long_hard_sort").timeit(number=1000))
