@@ -70,11 +70,11 @@ if __name__ == '__main__':
         x = random.sample(range(1000), 1000)
         r_sort(x)
 
-    print "This is sorting a range of 1000"
+    print("This is sorting a range of 1000")
     print(timeit.Timer("easy_sort()",
           setup="from __main__ import easy_sort")
           .timeit(number=1000))
-    print "This is sorting a random range 1-1000"
+    print("This is sorting a random range 1-1000")
     print(timeit.Timer("hard_sort()",
           setup="from __main__ import hard_sort")
           .timeit(number=1000))
