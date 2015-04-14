@@ -56,10 +56,7 @@ def string_radix(arr, base=128):
 
 
 def find_longest_string(arr):
-    longest = arr[0]
-    for val in arr:
-        if len(val) > len(longest):
-            longest = val
+    longest = max(map(len, arr))
     return longest
 
 
