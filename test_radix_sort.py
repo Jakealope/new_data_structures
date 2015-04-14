@@ -26,6 +26,11 @@ def test_big_strings():
 
 
 def test_huge_input():
+    # open the file and name it afile
     with open("/usr/share/dict/words", "r") as afile:
+        # loop through all the words in the file and bind them to 'word'
         word = [i for i in afile]
+        # radix sort the words, they then need to be asserted to a sorted
+        # version of the same file because radix orders the capitol letters
+        # first where they come all mixed up
         assert string_radix(word) == sorted(word)
