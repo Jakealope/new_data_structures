@@ -25,17 +25,7 @@ def test_big_strings():
                                        'this is a big string']
 
 
-'''things to do:
-Make this work... It is currently putting all the upper case first,
-instead of just blending them in..'''
-
-# def test_huge_input():
-#     with open("/usr/share/dict/words", "r") as afile:
-#         word = [i for i in afile]
-#         for word in afile:
-#             word.strip()
-#             word.shuffle()
-#             word.tolower()
-#             if not word:
-#                 break
-#         assert string_radix(word) == word
+def test_huge_input():
+    with open("/usr/share/dict/words", "r") as afile:
+        word = [i for i in afile]
+        assert string_radix(word) == sorted(word)
