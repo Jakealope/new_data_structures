@@ -27,7 +27,7 @@ def merger(left, right):
 
     if left:
         final.extend(left[l_index:])
-    if right:
+    else:
         final.extend(right[r_index:])
     return final
 
