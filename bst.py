@@ -60,26 +60,26 @@ class BSTNode(object):
     def _get_dot(self):
         """recursively prepare a dot graph entry for this node."""
         if self.left is not None:
-            yield "\t%s -> %s;" % (self.value, self.left.value)
+            yield "\t%s -> %s;" % (self.val, self.left.val)
             for i in self.left._get_dot():
                 yield i
         elif self.right is not None:
             r = random.randint(0, 1e9)
             yield "\tnull%s [shape=point];" % r
-            yield "\t%s -> null%s;" % (self.value, r)
+            yield "\t%s -> null%s;" % (self.val, r)
         if self.right is not None:
-            yield "\t%s -> %s;" % (self.value, self.right.value)
+            yield "\t%s -> %s;" % (self.val, self.right.val)
             for i in self.right._get_dot():
                 yield i
         elif self.left is not None:
             r = random.randint(0, 1e9)
             yield "\tnull%s [shape=point];" % r
-            yield "\t%s -> null%s;" % (self.value, r)
+            yield "\t%s -> null%s;" % (self.val, r)
 
 
 class BST(object):
     '''Instantiate binary search tree'''
-    def __init__(self, values=None):
+    def __init__(self, vals=None):
         self.root = None
         self._size = 0
 
@@ -87,43 +87,43 @@ class BST(object):
         '''Will return integer size of BST'''
         return self._size
 
-    def insert(self, value):
-        '''Inserts the data in value into BST'''
+    def insert(self, val):
+        '''Inserts the data in val into BST'''
         if self.root is None:
-            self.root = BSTNode(value)
+            self.root = BSTNode(val)
             self._size += 1
             return
         current_node = self.root
         while True:
-            if current_node.value > value:
+            if current_node.val > val:
                 if current_node.left:
                     current_node = current_node.left
                 else:
-                    current_node.left = BSTNode(value)
+                    current_node.left = BSTNode(val)
                     self._size += 1
                     break
-            elif current_node.value < value:
+            elif current_node.val < val:
                 if current_node.right:
                     current_node = current_node.right
                 else:
-                    current_node.right = BSTNode(value)
+                    current_node.right = BSTNode(val)
                     self._size += 1
                     break
             else:
                 break
 
-    def contains(self, value):
-        '''Returns true if data in value is in BST'''
+    def contains(self, val):
+        '''Returns true if data in val is in BST'''
         if self.root is None:
             return False
         current_node = self.root
         while True:
-            if current_node.value > value:
+            if current_node.val > val:
                 if current_node.left:
                     current_node = current_node.left
                 else:
                     return False
-            elif current_node.value < value:
+            elif current_node.val < val:
                 if current_node.right:
                     current_node = current_node.right
                 else:
@@ -148,14 +148,14 @@ class BST(object):
 
     def is_balanced(self):
         '''Return positive or negative integer to represent tree balance'''
-        ret_value = 0
+        ret_val = 0
         if self.root is None:
-            return ret_value
+            return ret_val
         if self.root.left:
-            ret_value += self._depth(1, self.root.left)
+            ret_val += self._depth(1, self.root.left)
         if self.root.right:
-            ret_value -= self._depth(1, self.root.right)
-        return ret_value
+            ret_val -= self._depth(1, self.root.right)
+        return ret_val
 
     def height(self, node):
         if node is None:
@@ -165,9 +165,9 @@ class BST(object):
 
     def get_dot(self):
         """return the tree with root 'self' as a dot graph for visualization"""
-        return "digraph G{\n%s}" % ("" if self.root.value is None else (
+        return "digraph G{\n%s}" % ("" if self.root.val is None else (
             "\t%s;\n%s\n" % (
-                self.root.value,
+                self.root.val,
                 "\n".join(self.root._get_dot())
             )
         ))
@@ -178,11 +178,11 @@ class BST(object):
     def _in_order(self, leaf):
         if leaf is None:
             return
-        for value in self._in_order(leaf.left):
-            yield value
-        yield leaf.value
-        for value in self._in_order(leaf.right):
-            yield value
+        for val in self._in_order(leaf.left):
+            yield val
+        yield leaf.val
+        for val in self._in_order(leaf.right):
+            yield val
 
     def pre_order(self):
         return self._pre_order(self.root)
@@ -190,11 +190,11 @@ class BST(object):
     def _pre_order(self, leaf):
         if leaf is None:
             return
-        yield leaf.value
-        for value in self._pre_order(leaf.left):
-            yield value
-        for value in self._pre_order(leaf.right):
-            yield value
+        yield leaf.val
+        for val in self._pre_order(leaf.left):
+            yield val
+        for val in self._pre_order(leaf.right):
+            yield val
 
     def post_order(self):
         return self._post_order(self.root)
@@ -202,18 +202,18 @@ class BST(object):
     def _post_order(self, leaf):
         if leaf is None:
             return
-        for value in self._post_order(leaf.left):
-            yield value
-        for value in self._post_order(leaf.right):
-            yield value
-        yield leaf.value
+        for val in self._post_order(leaf.left):
+            yield val
+        for val in self._post_order(leaf.right):
+            yield val
+        yield leaf.val
 
     def breadth_traversal(self):
         x = deque()
         x.append(self.root)
         while x:
             leaf = x.popleft()
-            yield leaf.value
+            yield leaf.val
             if leaf.left:
                 x.append(leaf.left)
             if leaf.right:
@@ -228,16 +228,16 @@ class BST(object):
             if leaf.left:
                 return _descendants(leaf.left)
             else:
-                return leaf.value
+                return leaf.val
 
         if not leaf:
             return None
 
-        if leaf.value == val:
+        if leaf.val == val:
             self._size -= 1
             if leaf.left and leaf.right:
-                leaf.value = _descendants(leaf.right)
-                leaf.right = self._delete(leaf.value, leaf.right)
+                leaf.val = _descendants(leaf.right)
+                leaf.right = self._delete(leaf.val, leaf.right)
                 return leaf
             elif leaf.left and not leaf.right:
                 return leaf.left
@@ -246,7 +246,7 @@ class BST(object):
             else:
                 return None
 
-        elif leaf.value < val:
+        elif leaf.val < val:
             if leaf.right:
                 leaf.right = self._delete(val, leaf.right)
             return leaf
@@ -281,26 +281,26 @@ class BST(object):
         return self.r_rotate(node)
 
     ''' This is the insert function for the AVL tree that will balance itself on insert'''
-    def put(self, value):
+    def put(self, val):
         if not self.root:
-            self.root = BSTNode(value)
+            self.root = BSTNode(val)
         else:
-            self.root = self._put(value, self.root)
+            self.root = self._put(val, self.root)
 
-    def _put(self, value, node):
+    def _put(self, val, node):
         if node is None:
-            node = BSTNode(value)
-        elif value < node.value:
-            node.left = self._put(value, node.left)
+            node = BSTNode(val)
+        elif val < node.val:
+            node.left = self._put(val, node.left)
             if (self.height(node.left) - self.height(node.right)) == 2:
-                if value < node.left.value:
+                if val < node.left.val:
                     node = self.l_rotate(node)
                 else:
                     node = self.ll_rotate(node)
-        elif value > node.value:
-            node.right = self._put(value, node.right)
+        elif val > node.val:
+            node.right = self._put(val, node.right)
             if (self.height(node.right) - self.height(node.left)) == 2:
-                if value < node.right.value:
+                if val < node.right.val:
                     node = self.rr_rotate(node)
                 else:
                     node = self.r_rotate(node)
@@ -361,9 +361,9 @@ class BST(object):
         else:
             return self.find_rightmost(node.right_child)
 
-    def find_next(self, value):
-        node = self.find(value)
-        if (node is None) or (node.value != value):
+    def find_next(self, val):
+        node = self.find(val)
+        if (node is None) or (node.val != val):
             return None
         else:
             right_child = node.right_child
@@ -380,11 +380,11 @@ class BST(object):
             if node is None:
                 return node
             else:
-                return node.value
+                return node.val
 
-    def find_prev(self, value):
-        node = self.find(value)
-        if (node is None) or (node.value != value):
+    def find_prev(self, val):
+        node = self.find(val)
+        if (node is None) or (node.val != val):
             return None
         else:
             left_child = node.left_child
@@ -401,27 +401,27 @@ class BST(object):
             if node is None:
                 return node
             else:
-                return node.value
+                return node.val
 
-    def find(self, value, node=None):
+    def find(self, val, node=None):
         if node is None:
             node = self.root
             if self.root is None:
                 return None
             else:
-                return self.find(value, self.root)
-        elif node.value == value:
+                return self.find(val, self.root)
+        elif node.val == val:
             return node
-        elif value < node.value:
+        elif val < node.val:
             if node.left_child is None:
                 return node
             else:
-                return self.find(value, node.left_child)
+                return self.find(val, node.left_child)
         else:
             if node.right_child is None:
                 return node
             else:
-                return self.find(value, node.right_child)
+                return self.find(val, node.right_child)
 
     def balance(self, node):
         ''' There are four posabilities for rotation
@@ -457,26 +457,26 @@ class BST(object):
         b = BST()
         for item in tree_maker:
             b.insert(item)
-        ret_value = []
+        ret_val = []
         if ascending:
             node = b.find_leftmost(b.root)
             if node is not None:
-                value = node.value
+                val = node.val
             else:
-                value = node
-            while (value is not None):
-                ret_value.append(value)
-                value = b.find_next(value)
+                val = node
+            while (val is not None):
+                ret_val.append(val)
+                val = b.find_next(val)
 
         else:
             node = b.find_rightmost(b.root)
             if node is not None:
-                value = node.value
+                val = node.val
             else:
-                value = node
-            while (value is not None):
-                ret_value.append(value)
-                value = b.find_prev(value)
+                val = node
+            while (val is not None):
+                ret_val.append(val)
+                val = b.find_prev(val)
         return ret_value
 
 
