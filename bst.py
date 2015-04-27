@@ -1,5 +1,4 @@
 # http://blog.shayanjaved.com/2012/01/14/binary-search-tree-in-python/
-
 # http://interactivepython.org/XSKWZ/LpOMZ/courselib/static/pythonds/Trees/bst.html
 import timeit
 import random
@@ -10,8 +9,8 @@ from collections import deque
 
 class BSTNode(object):
     '''Instantiate Node and add helper functions'''
-    def __init__(self, value, parent=None, left_child=None, right_child=None):
-        self.value = value
+    def __init__(self, val, parent=None, left_child=None, right_child=None):
+        self.val = val
         self.parent = parent
         self.left = left_child
         self.right = right_child
