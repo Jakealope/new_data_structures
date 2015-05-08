@@ -43,3 +43,5 @@ def test_identical():
     x.set('peter', 'peter')
     x.set('vortex', 'vortex')
     assert x.get('vortex') == 'vortex'
+    assert x.get('vortex') == 'vortex'
+    assert x.get('vortex') == 'vortex'
