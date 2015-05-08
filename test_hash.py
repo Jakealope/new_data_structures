@@ -34,4 +34,8 @@ def test_ordval():
     assert x.get('this is a really big sentence to break it') == 'this is a really big sentence to break it'
 
 '''Write test that inputs identical keys, with different values
-   And check size. To make sure that it doens't just overwrite it.''
+   And check size. To make sure that it doens't just overwrite it.'''
+
+
+def test_identical():
+    pass
