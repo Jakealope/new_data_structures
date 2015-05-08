@@ -16,15 +16,15 @@ def test_one(_small):
     assert x.get('batman') != 'robin'
 
 
-def test_dict():
-    x = HashTable()
-    with open("/usr/share/dict/words", "r") as afile:
-        for word in afile:
-            word.strip()
-            if not word:
-                break
-            x.set(word, word)
-        assert x.get(word) == word
+# def test_dict():
+#     x = HashTable()
+#     with open("/usr/share/dict/words", "r") as afile:
+#         for word in afile:
+#             word.strip()
+#             if not word:
+#                 break
+#             x.set(word, word)
+#         assert x.get(word) == word
 
 
 def test_ordval():
@@ -38,4 +38,8 @@ def test_ordval():
 
 
 def test_identical():
-    pass
+    x = HashTable()
+    x.set('vortex', 'vortex')
+    x.set('peter', 'peter')
+    x.set('vortex', 'vortex')
+    assert x.get('vortex') == 'vortex'
